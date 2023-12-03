@@ -46,4 +46,4 @@ explorer https://github.com/PARK4139/%PROJECT_DIRECTORY_DIRNAME%
 
 
 :: debug
-timeout 600
+:: timeout 600
