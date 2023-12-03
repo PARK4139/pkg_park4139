@@ -1147,6 +1147,7 @@ class park4139:
 
     #     print(f'{Change(variable)} : {variable}')
 
+    
 
     def speak(self,ment):
         # helper_bat = rf"C:\Users\WIN10PROPC3\Desktop\services\helper-from-text-to-speech\helper.bat"
@@ -1285,7 +1286,7 @@ class park4139:
         lines = subprocess.check_output(rf'echo "server_time  : {server_time} ,  project_directory  : {self.project_directory},  __file__  : {__file__},  log_title : 종료로깅,  server_life_cycle : {server_life_cycle}  " >> "{self.log_directory}\success.log"', shell=True).decode('utf-8').split('\n')
         # os.system('cls')
 
-
+    def get
 
 
 class etc:
