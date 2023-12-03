@@ -1138,14 +1138,14 @@ class park4139:
                 pass
 
     # 2023-12-03 일요일 13:25 최신화 변수명 출력함수
-    # def print(variable):
-    #     def namestr(obj, namespace):
-    #         get_name = [name for name in namespace if namespace[name] is obj]
-    #         return get_name[0]
-    #     def Change(variable):
-    #         print(namestr(variable, globals()), "=", variable)
+    def print(variable):
+        def namestr(obj, namespace):
+            get_name = [name for name in namespace if namespace[name] is obj]
+            return get_name[0]
+        def Change(variable):
+            print(namestr(variable, globals()), "=", variable)
 
-    #     print(f'{Change(variable)} : {variable}')
+        print(f'{Change(variable)} : {variable}')
 
     
 
@@ -1156,7 +1156,7 @@ class park4139:
         #     os.chdir(self.project_directory)
         # except:
         #     park4139.trouble_shoot('20231202231750')
-            
+        print(ment)
 
     def speaks(self,ments):
         for ment in ments:
