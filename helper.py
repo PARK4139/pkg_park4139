@@ -1286,7 +1286,17 @@ class park4139:
         lines = subprocess.check_output(rf'echo "server_time  : {server_time} ,  project_directory  : {self.project_directory},  __file__  : {__file__},  log_title : 종료로깅,  server_life_cycle : {server_life_cycle}  " >> "{self.log_directory}\success.log"', shell=True).decode('utf-8').split('\n')
         # os.system('cls')
 
-    def get
+    # 프로그램 PID 출력
+    def get_pid():
+        pro = subprocess.check_output(fr'powershell (Get-WmiObject Win32_Process -Filter ProcessId=$PID).ParentProcessId', shell=True).decode('utf-8')  # 실험해보니 subprocess.check_output(cmd,shell=True).decode('utf-8') 코드는 프로세스가 알아서 죽는 것 같다. 모르겠는데 " " 가 있어야 동작함
+        lines = pro.split('\n')
+        pids=[]
+        for line in lines:
+            if "" != line.strip():
+                pid = line
+                pids.a
+                print(f'pid: {pid}')
+        return 
 
 
 class etc:
