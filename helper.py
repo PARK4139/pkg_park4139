@@ -1150,18 +1150,13 @@ class park4139:
     
 
     def speak(self,ment):
-        # helper_bat = rf"C:\Users\WIN10PROPC3\Desktop\services\helper-from-text-to-speech\helper.bat"
-        # os.chdir(os.path.dirname(helper_bat))
-        # lines= subprocess.check_output(rf'call "{helper_bat}" "{ment}"' , shell=True).decode('utf-8').split('\n')
-        # os.chdir(project_directory)
-
-        helper_py = rf"C:\Users\WIN10PROPC3\Desktop\services\helper-from-text-to-speech\helper.py"
-        # clipboard.copy(rf'python "{helper_py}" "{ment}"')
-        try:
-            os.system(rf'python "{helper_py}" "{ment}"')
-        except:
-            park4139.trouble_shoot('20231202231750')
-        os.chdir(self.project_directory)
+        # helper_py = rf"C:\Users\WIN10PROPC3\Desktop\services\helper-from-text-to-speech\helper.py"
+        # try:
+        #     os.system(rf'python "{helper_py}" "{ment}"')
+        #     os.chdir(self.project_directory)
+        # except:
+        #     park4139.trouble_shoot('20231202231750')
+            
 
     def speaks(self,ments):
         for ment in ments:
