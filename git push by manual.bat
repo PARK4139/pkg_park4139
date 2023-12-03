@@ -34,11 +34,14 @@ git status | find "working tree clean"
 
 
 
-:: GET PROJECT_DIRECTORY 
-SET PROJECT_DIRECTORY=%cd% 
+:: GET PROJECT_DIRECTORY
+SET PROJECT_DIRECTORY=%cd%
+for %%F in ("%CD%") do set "PROJECT_DIRECTORY_DIRNAME=%%~nxF"
+
+
 
 :: CHECK GIT HUB PUSH DONE (Now)
-explorer https://github.com/PARK4139/%PROJECT_DIRECTORY%
+explorer https://github.com/PARK4139/%PROJECT_DIRECTORY_DIRNAME%
 
 
 
