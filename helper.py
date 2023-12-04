@@ -75,7 +75,7 @@ def all_info():
     foo = subprocess.check_output('dir /b /s /o /a', shell=True).decode('utf-8')  # 전부 with walking
     print(foo)
 
-    # :: 현재 디렉토리 파일만 사이즈 출력
+    # :: 특정 디렉토리/파일 사이즈 출력 with walking
     # current_files = os.popen('dir /b /s /o /a').readlines()    # 전부 with walking
     # current_files = os.popen('dir /b /s /o /ad').readlines()   # 폴더만 with walking
     current_files = subprocess.check_output('dir /b /s /o /a-d', shell=True).decode('utf-8')  # 파일만 with walking
@@ -101,7 +101,7 @@ def all_info():
         i = int(math.floor(math.log(size_bytes, 1024)))
         p = math.pow(1024, i)
         s = round(size_bytes / p, 2)
-        return "%s %s" % (s, size_name[i])
+        return r"%s %s" % (s, size_name[i])
 
     current_files = subprocess.check_output('dir /b /s /o /a-d', shell=True).decode('utf-8')  # 파일만
     lines = current_files.split("\n")
@@ -140,8 +140,8 @@ def all_info():
         for filename in files:
             fileMtime = datetime.fromtimestamp(os.path.getmtime(path + '\\' + filename))
             if inputDate > fileMtime:
-                print('경로 : [%s], 파일명 : [%s], 수정일자 : [%s]' % (path, filename, fileMtime))
-                print('[%s\%s]' % (path, filename))
+                print(r'경로 : [%s], 파일명 : [%s], 수정일자 : [%s]' % (path, filename, fileMtime))
+                print(r'[%s\%s]' % (path, filename))
     print("_______________________________________________________________________________________________________________ 20180526 14:00 이전 생성된 파일 출력 e")
     print("_______________________________________________________________________________________________________________ 현재시간기준 생성된지 1일 된 zip 확장자 파일만 출력 s")
     times = park4139.get_time_as_('%Y-%m-%d %H:%M:%S').split(' ')
@@ -1103,19 +1103,24 @@ class park4139:
     log_directory=''
     trouble_yn='n'
     debug_mode_yn ="n"
+    string_space_promised = '      '
 
     def __init__(self,project_directory,log_directory):
         self.project_directory =project_directory
         self.log_directory=log_directory
-        os.system('chcp 65001')
+        os.system('chcp 65001 > nul')
         
     def sleep(self, milliseconds):
         seconds =milliseconds/1000
         time.sleep(seconds)
 
-    def bkup(self,service_file ,file_to_bkup): 
-        print(fr"{file_to_bkup} 에 대한 파일백업을 시도합니다")
-        park4139.run_command(self,fr'start /b cmd /c call "{service_file}" "{file_to_bkup}"', service_directory=os.path.dirname(service_file))
+    def bkup(self,bkup_service_host_file ,file_to_bkup): 
+        try:
+            cmd = fr'start cmd /c call "{bkup_service_host_file}" "{file_to_bkup}"'
+            # print(fr"test command >{self.string_space_promised}{cmd}")
+            park4139.run_command(self,cmd, service_directory=os.path.dirname(bkup_service_host_file))
+        except:
+            park4139.trouble_shoot('20231204132424')
     
     
     # 2023-12-03 일요일 13:06 최신화 함수
@@ -1417,9 +1422,23 @@ class park4139:
 
     def run_command(self,cmd,service_directory):
         os.chdir(service_directory)
-        print(rf'test command >    {cmd}')
+        print(rf'test command >{self.string_space_promised}{cmd}')
         try:
-            lines = subprocess.check_output(cmd, shell=True).decode('utf-8').split('\n')
+            # os.system(cmd)
+            # os.Popen 으로 print 가능하도록 할 수 있다는 것 같았는데 일단 되니까. 안되면 시도.
+
+            # cmd = 'dir /b'
+            # cmd = ['dir', '/b']
+            # fd_popen = subprocess.Popen(cmd, stdout=subprocess.PIPE).stdout # 명령어 실행 후 반환되는 결과를 파일에 저장합니다.
+            # fd_popen = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout # shell=True 옵션, cmd를 string 가능하도록 설정
+            # data = fd_popen.read().strip()# data에 저장합니다.
+            # fd_popen.close()# 파일을 닫습니다.
+            # print(data)
+
+            try:
+                lines = subprocess.check_output(cmd, shell=True).decode('utf-8').split('\n')
+            except UnicodeDecodeError:
+                lines = subprocess.check_output(cmd, shell=True).decode('euc-kr').split('\n')
             for line in lines:
                 print(line)
         except:
@@ -1429,7 +1448,7 @@ class park4139:
 
     # 시작로깅(json 형태로 넣을 수 있도록 코드 업데이트 할것)
     def log_s(self, log_title = "시작로깅"):
-        lines = subprocess.check_output('chcp 65001', shell=True).decode('utf-8').split('\n')  # 한글 엔코딩 설정 , shell=True).decode('utf-8').split('\n')
+        lines = subprocess.check_output('chcp 65001 >nul', shell=True).decode('utf-8').split('\n')  # 한글 엔코딩 설정 , shell=True).decode('utf-8').split('\n')
         self.time_s = time.time()  # 서버라이프사이클 계산용 변수 설정
         server_time = self.get_time_as_(f'%Y-%m-%d %H:%M:%S')
         lines = subprocess.check_output(rf'echo "server_time  : {server_time} ,  project_directory  : {self.project_directory},  __file__  : {__file__},  log_title : {log_title} " >> "{self.log_directory}\success.log"', shell=True).decode('utf-8').split('\n')
@@ -1462,8 +1481,11 @@ class park4139:
         return pids
     
     @staticmethod
-    def seperate_console(title):
+    def commentize(title):
         print(f'_________________________________________________________________ {title.replace("_","")} s')
+
+    
+    
 
 
 class etc:
