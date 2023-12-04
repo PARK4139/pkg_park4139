@@ -37,7 +37,7 @@ from datetime import timedelta
  
 # _________________________________________________________________________________________ mkr: new
 class park4139:
-    project_directory = ''
+    directory_to_work = ''
     log_directory=''
     trouble_yn='n'
     debug_mode_yn ="n"
@@ -45,8 +45,8 @@ class park4139:
     time_s = 0.0
     time_e = 0.0
 
-    def __init__(self,project_directory,log_directory):
-        self.project_directory =project_directory
+    def __init__(self,directory_to_work,log_directory):
+        self.directory_to_work =directory_to_work
         self.log_directory=log_directory
         os.system('chcp 65001 > nul')
         
@@ -113,7 +113,7 @@ class park4139:
             os.system(rf'python "{helper_py}" "{ment}"')
         except:
             park4139.trouble_shoot('20231202231750')
-        os.chdir(self.project_directory)
+        os.chdir(self.directory_to_work)
         print(ment)
 
 
@@ -307,7 +307,7 @@ class park4139:
         except:
             print(f'20231129112936')
             # traceback.print_exc(file=sys.stdout)
-        os.chdir(self.project_directory)
+        os.chdir(self.directory_to_work)
 
     # 디스플레이 정보 가져오기
     @staticmethod
@@ -360,7 +360,7 @@ class park4139:
             print(process.name(), "\t" + str(process.pid), "\t" + process.status())
 
 
-    def run_command(self,cmd,intended_working_directory=project_directory):
+    def run_command(self,cmd,intended_working_directory=directory_to_work):
         if intended_working_directory != "":
             os.chdir(intended_working_directory)
         print(rf'test command >{self.string_space_promised}{cmd}')
@@ -384,7 +384,7 @@ class park4139:
                 print(line)
         except:
             self.trouble_shoot('20231203144559')
-        os.chdir(self.project_directory)
+        os.chdir(self.directory_to_work)
 
 
     # 시작로깅(json 형태로 넣을 수 있도록 코드 업데이트 할것)
@@ -392,13 +392,13 @@ class park4139:
         lines = subprocess.check_output('chcp 65001 >nul', shell=True).decode('utf-8').split('\n')  # 한글 엔코딩 설정 , shell=True).decode('utf-8').split('\n')
         self.time_s = time.time()  # 서버라이프사이클 계산용 변수 설정
         server_time = self.get_time_as_(f'%Y-%m-%d %H:%M:%S')
-        lines = subprocess.check_output(rf'echo "server_time  : {server_time} ,  project_directory  : {self.project_directory},  __file__  : {__file__},  log_title : {log_title} " >> "{self.log_directory}\success.log"', shell=True).decode('utf-8').split('\n')
+        lines = subprocess.check_output(rf'echo "server_time  : {server_time} ,  directory_to_work  : {self.directory_to_work},  __file__  : {__file__},  log_title : {log_title} " >> "{self.log_directory}\success.log"', shell=True).decode('utf-8').split('\n')
         for line in lines:
             print(line)
 
     def log_mid(self,log_title = "중간로깅"):
         server_time = self.get_time_as_(f'%Y-%m-%d %H:%M:%S')
-        lines = subprocess.check_output(rf'echo "server_time  : {server_time} ,  project_directory  : {self.project_directory},  __file__  : {__file__},  log_title : {log_title} " >> "{self.log_directory}\success.log"', shell=True).decode('utf-8').split('\n')
+        lines = subprocess.check_output(rf'echo "server_time  : {server_time} ,  directory_to_work  : {self.directory_to_work},  __file__  : {__file__},  log_title : {log_title} " >> "{self.log_directory}\success.log"', shell=True).decode('utf-8').split('\n')
         # os.system('cls')
 
 
@@ -406,7 +406,7 @@ class park4139:
         self.time_e = time.time()  # 서버라이프사이클 계산용 변수 설정
         server_time = self.get_time_as_(f'%Y-%m-%d %H:%M:%S')
         server_life_cycle = self.time_e - self.time_s
-        lines = subprocess.check_output(rf'echo "server_time  : {server_time} ,  project_directory  : {self.project_directory},  __file__  : {__file__},  log_title : {log_title},  server_life_cycle : {server_life_cycle}  " >> "{self.log_directory}\success.log"', shell=True).decode('utf-8').split('\n')
+        lines = subprocess.check_output(rf'echo "server_time  : {server_time} ,  directory_to_work  : {self.directory_to_work},  __file__  : {__file__},  log_title : {log_title},  server_life_cycle : {server_life_cycle}  " >> "{self.log_directory}\success.log"', shell=True).decode('utf-8').split('\n')
         # os.system('cls')
 
     # 프로그램 PID 출력
