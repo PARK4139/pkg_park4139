@@ -67,7 +67,7 @@ class park4139:
     def get_python_pkg_global_path(self):
         for path in sys.path:
             print(path)
-            if self.is_regex_searched(context=path, regex='site-packages') == True:
+            if self.is_regex_in_contents(contents=path, regex='site-packages') == True:
                 print(rf'echo "{path}"')
                 os.system(rf'echo "{path}" | clip.exe ')
                 os.system(rf'explorer "{path}"')
@@ -124,14 +124,18 @@ class park4139:
 
     # 2023-12-03 일요일 13:25 최신화 함수
     def trouble_shoot(self,id: str):
+        # for development
         print(f':: _______________________________________________________________________________________ trouble shooting id : {id}  s')
         os.system(f'echo {id}| clip.exe')
         traceback.print_exc(file=sys.stdout)
-        self.speak('트러블슈팅코드를 클립보드에 붙여넣었습니다')
-        print('트러블슈팅코드를 클립보드에 붙여넣었습니다')
+        self.speak('트러블슈팅 아이디를 클립보드에 붙여넣었습니다')
         print(f':: _______________________________________________________________________________________ trouble shooting id : {id}  e')
         os.system('pause') # 이 코드는 PRODUCTION 환경 에서는 고민이 필요함.
         self.trouble_yn = 'y'
+
+        # for production
+        # pass
+
 
     # 2023-12-03 일요일 13:25 최신화 함수
     @staticmethod
@@ -236,7 +240,7 @@ class park4139:
                 for pattern in patterns:
                     try:
                         clip_id = url.split(pattern)[1]
-                        if park4139.is_regex_searched(line, clip_id) is True:
+                        if park4139.is_regex_in_contents(line, clip_id) is True:
                             files.append(line)
                         else:
                             pass
@@ -345,7 +349,7 @@ class park4139:
 
 
     @staticmethod
-    def is_regex_searched(context, regex):
+    def is_regex_in_contents(contents, regex):
         pattern = re.compile(regex)
         m = pattern.search(context)
         if m:
@@ -427,7 +431,38 @@ class park4139:
         # 아래 코드를 주석 해제하면 귀찮을 정도로 너무 말이 많을 수 있습니다.
         # self.speak(title)
 
-   
+    @staticmethod
+    def get_target_bite(start_path = '.'):
+        total_size = 0
+        for dirpath, dirnames, filenames in os.walk(start_path):
+            for f in filenames:
+                fp = os.path.join(dirpath, f)
+                # skip if it is symbolic link
+                if not os.path.islink(fp):
+                    total_size += os.path.getsize(fp)
+        return total_size
+
+
+    @staticmethod
+    def get_target_megabite(target_path):
+        return park4139.get_target_bite(target_path.strip()) / 1024 ** 2
+    
+    @staticmethod
+    def get_target_gigabite(target_path):
+        return park4139.get_target_bite(target_path.strip()) / 1024 ** 3
+
+    @staticmethod
+    def toogle_console_color(color_bg, colors_texts):
+        to_right_nbsp = ''
+        to_right_nbsp_cnt=150
+        for i in range(0, to_right_nbsp_cnt):
+            to_right_nbsp = to_right_nbsp + ' '
+        for color_text in colors_texts:
+            if color_bg != color_text:
+                for setting_key, setting_value in park4139.get_display_setting().items():
+                    pass
+                for i in range(0, 32):
+                    os.system(f"color {color_bg}{color_text}")
 
 class etc:
     def __init__(self):
