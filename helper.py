@@ -1210,8 +1210,8 @@ class park4139:
             else:
                 return str(now.strftime(pattern))
 
-    @staticmethod
-    def download_clip(url):
+    
+    def download_clip(self,url):
         try:
             # :: 다운로드가 안되면 주석 풀어 시도
             # os.system(rf'yt-dlp -U')
@@ -1362,6 +1362,7 @@ class park4139:
         except:
             print(f'20231129112936')
             # traceback.print_exc(file=sys.stdout)
+        os.chdir(self.project_directory)
 
     # 디스플레이 정보 가져오기
     @staticmethod
